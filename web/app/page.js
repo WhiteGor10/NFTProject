@@ -39,7 +39,7 @@ export default function Home() {
       try { 
 
         //call the function mint
-        await contract.mint(signer.getAddress(), tokenId); 
+        await contract.mint(signer.getAddress(), tokenId, "url");   //should input url to replace "url"
         alert("Created BNFT Token : "+ tokenId); 
         
       } catch (e) { 
