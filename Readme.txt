@@ -1,5 +1,5 @@
 Step to use this
-expect installed : Foundry, Nextjs, Ethers.js 5.7.0 (may not needed)
+expect installed : Foundry 0.3.0, Nextjs(Node.js > 19,and need all dependences installed under the /web), Ethers.js 5.7.0
 1. code: anvil
 2. copy private keys and address to /contracts/.env
 3. go under contract/
