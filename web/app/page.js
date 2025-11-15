@@ -28,6 +28,24 @@ export default function Home() {
       } 
      } 
     }
+    async function Findurl(){ 
+    if (window.ethereum) { 
+      //initial smart contract
+      const provider = new ethers.providers.Web3Provider(window.ethereum); 
+      const signer = provider.getSigner(); 
+      const contract = new ethers.Contract( ContractAddress, BNFT.abi, signer ); 
+
+      try { 
+        //call the function 
+        const url = await contract.urlOf(tokenId); 
+        alert("Url of id:"+ tokenId +" : "+ url); 
+      } 
+      catch (e) { 
+        console.log("error", e); 
+        alert("Error"); 
+      } 
+     } 
+    }
   async function handleMint() 
   { 
     if (window.ethereum) { 
@@ -167,6 +185,14 @@ export default function Home() {
             rel="noopener noreferrer"
           >
             FindOwner
+          </a>
+          <a
+            onClick={Findurl}
+            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            FindUrl
           </a>
           <a
             onClick={List}
