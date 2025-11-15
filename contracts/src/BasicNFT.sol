@@ -39,7 +39,7 @@ contract BasicNFT{
 
     //Mint a new token
     //need input address of owner, a unique tokenId and url to metadata of the NFT
-    function mint(address to, uint tokenId, string url)public {
+    function mint(address to, uint tokenId, string memory url)public {
         require(tokenId <= maxNum , "TokenId out of range");
         require(to != address(0), "mint to zero address");
         require(owners[tokenId] == address(0), "token already minted");
@@ -60,6 +60,12 @@ contract BasicNFT{
         require(tokenId <= maxNum, "TokenId out of range");
         require(owners[tokenId] != address(0), "token not minted");
         return owners[tokenId];
+    }
+
+    function urlOf(uint tokenId)public view returns(string memory){
+        require(tokenId <= maxNum, "TokenId out of range");
+        require(bytes(urls[tokenId]).length != 0, "token not minted");
+        return urls[tokenId];
     }
 
     function Approve(address to, uint tokenId)private{
@@ -84,7 +90,7 @@ contract BasicNFT{
 
     //List a NFT on market, allowing other users to buy
     //Notice that price is in Wei
-    function List(uint tokenId, uint price)public returns(){
+    function List(uint tokenId, uint price)public {
         require(tokenId <= maxNum, "TokenId out of range");
         require(msg.sender == ownerOf(tokenId),  "not the owner of token");
         require(listings[tokenId].seller == address(0), "Already Listed");
@@ -112,7 +118,7 @@ contract BasicNFT{
     }
 
     //Change price of listed NFT
-    function UpdatePrice(uint tokenId, uint newPrice)public returns{
+    function UpdatePrice(uint tokenId, uint newPrice)public {
         require(tokenId <= maxNum, "TokenId out of range");
         require(msg.sender == ownerOf(tokenId),  "not the owner of token");
 
@@ -120,7 +126,7 @@ contract BasicNFT{
     }
 
     //Unlist a listed NFT
-    function Revoke(uint tokenId)public returns{
+    function Revoke(uint tokenId)public {
         require(tokenId <= maxNum, "TokenId out of range");
         require(msg.sender == ownerOf(tokenId),  "not the owner of token");
 
