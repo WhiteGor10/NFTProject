@@ -19,7 +19,7 @@ contract BasicNFTTest is Test{
     function testIfUserMint_Success()public{
         vm.startPrank(user);
 
-        BNFT.mint(user, 1);
+        BNFT.mint(user, 1, "url");
 
         console.log("Owner of token1 : " , BNFT.ownerOf(1));
         vm.stopPrank();
@@ -27,7 +27,7 @@ contract BasicNFTTest is Test{
     function testburn_Success()public{
         vm.startPrank(user);
 
-        BNFT.mint(user, 1);
+        BNFT.mint(user, 1, "url");
 
         console.log("Owner of token1 : " , BNFT.ownerOf(1));
 
@@ -38,7 +38,7 @@ contract BasicNFTTest is Test{
     function testbruntokenNotyou_Fail() public{
         vm.startPrank(user);
 
-        BNFT.mint(user, 1);
+        BNFT.mint(user, 1, "url");
         vm.stopPrank();
 
         console.log("Owner of token1 : " , BNFT.ownerOf(1));
@@ -51,7 +51,7 @@ contract BasicNFTTest is Test{
     function testListAndBuy_Success() public{
         vm.startPrank(user2);
 
-        BNFT.mint(user2, 1);
+        BNFT.mint(user2, 1, "url");
         console.log("Owner of token1 : " , BNFT.ownerOf(1));
         BNFT.List(1, 1000);
         vm.stopPrank();
@@ -66,7 +66,7 @@ contract BasicNFTTest is Test{
     function testUpdateListPrice_Success() public{
         vm.startPrank(user2);
 
-        BNFT.mint(user2, 3);
+        BNFT.mint(user2, 3, "url");
         console.log("Owner of token3 : " , BNFT.ownerOf(3));
         BNFT.List(3, 1000);
         BNFT.UpdatePrice(3,900);
@@ -82,7 +82,7 @@ contract BasicNFTTest is Test{
     function testRevokeNFT_Fail() public{
         vm.startPrank(user2);
 
-        BNFT.mint(user2, 3);
+        BNFT.mint(user2, 3, "url");
         console.log("Owner of token3 : " , BNFT.ownerOf(3));
         BNFT.List(3, 1000);
         BNFT.Revoke(3);
