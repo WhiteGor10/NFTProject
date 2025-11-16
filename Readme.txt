@@ -5,7 +5,7 @@ expect installed : Foundry 0.3.0, Nextjs(Node.js > 19,and need all dependences i
 3. go under contract/
 4. code: source .env
 5. code: forge create --broadcast --rpc-url http://127.0.0.1:8545 --private-key ${user1private_key} src/BasicNFT.sol:BasicNFT
-6. copy the "deployed to" address to /web/app/page.js : ContractAddress
+6. copy the "deployed to" address to /web/app/utils.js : ContractAddress
 7. copy /contracts/out/BasicNFT.sol/BasicNFT.json to /web
 8. go under web/
 9. code: npm run dev
