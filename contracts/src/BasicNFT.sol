@@ -68,6 +68,13 @@ contract BasicNFT{
         return urls[tokenId];
     }
 
+    function priceOf(uint tokenId)public view returns(uint){
+        require(tokenId <= maxNum, "TokenId out of range");
+        require(listings[tokenId].seller != address(0), "NFT Not Listed");
+        return listings[tokenId].price;
+
+    }
+
     function Approve(address to, uint tokenId)private{
         require(tokenId <= maxNum, "TokenId out of range");
         require(msg.sender == ownerOf(tokenId),  "not the owner of token");
@@ -114,6 +121,7 @@ contract BasicNFT{
         //Send BNFT
         this.TransferBNFT(item.seller, msg.sender, tokenId);
 
+        listings[tokenId].seller = address(0);
         delete listings[tokenId];
     }
 
