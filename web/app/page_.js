@@ -29,9 +29,6 @@ export default function Home() {
       } 
      } 
     }
-    async function IsConnectedToAccount(){ 
-    
-    }
     async function Findurl(){ 
     if (window.ethereum) { 
       //initial smart contract
