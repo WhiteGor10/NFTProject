@@ -75,13 +75,14 @@ contract BasicNFT{
     }
 
     function AssignTokenId()public view returns (uint){
-        for(uint i = 1; i < maxNum ; i++)
+        for(uint i = 1; i <= maxNum ; i++)
         {
             if(owners[i] == address(0))
             {
                 return i;
             }
         }
+        require(false,"No more NFT token! ");
         return 0;
     }
 
