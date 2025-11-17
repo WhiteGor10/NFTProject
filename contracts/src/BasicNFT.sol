@@ -72,7 +72,17 @@ contract BasicNFT{
         require(tokenId <= maxNum, "TokenId out of range");
         require(listings[tokenId].seller != address(0), "NFT Not Listed");
         return listings[tokenId].price;
+    }
 
+    function AssignTokenId()public view returns (uint){
+        for(uint i = 1; i < maxNum ; i++)
+        {
+            if(owners[i] == address(0))
+            {
+                return i;
+            }
+        }
+        return 0;
     }
 
     function Approve(address to, uint tokenId)private{
