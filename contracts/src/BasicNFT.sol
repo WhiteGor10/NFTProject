@@ -163,6 +163,10 @@ contract BasicNFT{
         uint len = NumberOfToken[owner];
         uint[] memory tokenIDs = new uint[](len);
         uint j = 0;
+        if(len == 0){
+            require(false, "No NFT");
+            return tokenIDs;
+        }
         for(uint i = 1; i <= maxNum;i++){
             if(owners[i] == owner){
                 tokenIDs[j] = i;
