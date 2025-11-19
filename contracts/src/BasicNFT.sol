@@ -128,7 +128,7 @@ contract BasicNFT{
         require(tokenId <= maxNum, "TokenId out of range");
         require(msg.sender != ownerOf(tokenId),  "Is the owner of token");
         Listing memory item = listings[tokenId];
-        require(item.seller != address(0), "BNFT not listed");
+        require(item.seller != address(0), "NFT not listed");
         require(msg.value == item.price, "price not match");
 
         //Send ETH
