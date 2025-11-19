@@ -12,6 +12,8 @@ contract BasicNFT{
 
     mapping(uint => string) private urls;
 
+    mapping(address => uint) private NumberOfToken;
+
     //for market
 
     mapping(uint => address) private Approval;
@@ -46,6 +48,7 @@ contract BasicNFT{
 
         urls[tokenId] = url;
         owners[tokenId] = to;
+        NumberOfToken[to] += 1; 
     }
 
     //burn a token
@@ -54,6 +57,7 @@ contract BasicNFT{
         require(msg.sender == ownerOf(tokenId), "not owner of token");
         delete owners[tokenId];
         delete urls[tokenId];
+        NumberOfToken[msg.sender] -= 1; 
     }
 
     function ownerOf(uint tokenId)public view returns(address) {
@@ -102,7 +106,9 @@ contract BasicNFT{
         require(tokenId <= maxNum, "TokenId out of range");
         require(ownerOf(tokenId) == from , "not the owner of token");
         require(msg.sender == ownerOf(tokenId) || IsApproved(msg.sender, tokenId), "msg.sender not owner and not approved");
+        NumberOfToken[ownerOf(tokenId)] -= 1; 
         owners[tokenId] = to;
+        NumberOfToken[to] += 1; 
         delete Approval[tokenId];
     }
 
@@ -151,5 +157,24 @@ contract BasicNFT{
 
         delete listings[tokenId];
         delete Approval[tokenId];
+    }
+
+     function GetTokenIDsBelongsTo(address owner)public view returns (uint[] memory){
+        uint len = NumberOfToken[owner];
+        uint[] memory tokenIDs = new uint[](len);
+        uint j = 0;
+        for(uint i = 1; i <= maxNum;i++){
+            if(owners[i] == owner){
+                tokenIDs[j] = i;
+                j++;
+                if(j>= len){
+                    break;
+                }
+            }
+            
+            
+        }
+        require(j == len, "ERROR : Number of token not equal owner of");
+        return tokenIDs;
     }
 }
