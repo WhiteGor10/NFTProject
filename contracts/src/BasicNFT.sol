@@ -159,7 +159,7 @@ contract BasicNFT{
         delete Approval[tokenId];
     }
 
-     function GetTokenIDsBelongsTo(address owner)public view returns (uint[] memory){
+    function GetTokenIDsBelongsTo(address owner)public view returns (uint[] memory){
         uint len = NumberOfToken[owner];
         uint[] memory tokenIDs = new uint[](len);
         uint j = 0;
@@ -175,8 +175,6 @@ contract BasicNFT{
                     break;
                 }
             }
-            
-            
         }
         require(j == len, "ERROR : Number of token not equal owner of");
         return tokenIDs;
