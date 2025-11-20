@@ -210,6 +210,13 @@ contract BasicNFT{
         delete Auctions[tokenId];
     }
 
+    function GetCurrentAuctionPrice(uint tokenId) public view returns(uint){
+        require(tokenId <= maxNum, "TokenId out of range");
+        Auction memory item = Auctions[tokenId];
+        require(item.seller != address(0), "NFT not auctioned");
+        return item.HighestPrice;
+    }
+
     function GetTokenIDsBelongsTo(address owner)public view returns (uint[] memory){
         uint len = NumberOfToken[owner];
         uint[] memory tokenIDs = new uint[](len);
