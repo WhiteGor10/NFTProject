@@ -156,7 +156,7 @@ export default function Search() {
                                         <span className="font-semibold text-red-600">Warning:</span> This action is permanent and cannot be undone.
                                     </p>
                                     <button
-                                        onClick={() => BEndAuction(tokenId)}
+                                        onClick={() => EndAuction(tokenId)}
                                         disabled={!tokenId}
                                         className="bg-gradient-to-r from-red-500 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98] w-full"
                                     >

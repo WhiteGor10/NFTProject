@@ -217,7 +217,8 @@ export async function GetCurrentAuctionPrice(tokenId) {
         const contract = getContract();
     try { 
             const price = await contract.GetCurrentAuctionPrice(tokenId); 
-            alert("Current price : " + price); 
+            const priceInEth = ethers.utils.formatEther(price);
+            return priceInEth;
         } catch (e) { 
             console.log("error", e); 
             alert("ERROR: " + e); 

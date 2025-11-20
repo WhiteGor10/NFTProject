@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from 'next/link' 
 
-import { List, connectAccount,StartAuction,GetCurrentAuctionPrice} from "../utils.js";
+import { List, connectAccount,StartAuction,GetCurrentAuctionPrice,Bidding} from "../utils.js";
 export default function search() {
 
     const [account, setaccount] = useState([]); 
@@ -16,30 +16,26 @@ export default function search() {
     function StartBidding() {
         // Function to start a new bidding
         StartAuction(tokenId,priceEth);
-        console.log("Starting bidding for token:", tokenId, "with base price:", priceEth);
-        // Add your start bidding logic here
     }
 
     function JoinBidding() {
         // Function to join existing bidding
         Bidding(tokenId,priceEth);
-        console.log("Joining bidding for token:", tokenId, "with bid:", priceEth);
-        // Add your join bidding logic here
     }
     async function fetchCurrentBidPrice() {
-    if (!tokenId) {
-        setCurrentBidPrice("");
-        return;
-    }
-    
-    try {
-        const price = await GetCurrentAuctionPrice(tokenId);
-        setCurrentBidPrice(price);
-    } catch (error) {
-        console.error("Error fetching bid price:", error);
-        setCurrentBidPrice("Not auctioned");
-    }
-}
+        if (!tokenId) {
+            setCurrentBidPrice("");
+            return;
+        }
+        
+        try {
+            const price = await GetCurrentAuctionPrice(tokenId);
+            setCurrentBidPrice(price);
+        } catch (error) {
+            console.error("Error fetching bid price:", error);
+            setCurrentBidPrice("Not auctioned");
+        }
+    }      
     function ConnectAccount() {
         connectAccount(setaccount, setIsConnected);
     }
@@ -47,9 +43,12 @@ export default function search() {
     useEffect(() => {
         ConnectAccount(setaccount, setIsConnected);
     }, []);
+
     useEffect(() => {
+    if (biddingMode !== "start") {
         fetchCurrentBidPrice();
-    }, [tokenId]);
+    }
+    } , [tokenId, biddingMode, fetchCurrentBidPrice]);
 
     
         return (
