@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from 'next/link' 
 
-import { FindOwner, Findurl,List, connectAccount,Buy} from "../utils.js";
+import { List, connectAccount} from "../utils.js";
 export default function search() {
 
     const [account, setaccount] = useState([]); 
@@ -13,14 +13,11 @@ export default function search() {
     function OwnerOf(){
         FindOwner(tokenId);
     }
-    function View(){
+    function UrlOf(){
         Findurl(tokenId);
     }
     function ListNFT(){
         List(tokenId, priceEth);
-    }
-    function BuyNFT(){
-        Buy(tokenId);
     }
     function ConnectAccount() {
         connectAccount(setaccount, setIsConnected);
@@ -50,7 +47,7 @@ export default function search() {
 
                         {/* Connection Status */}
                         <div className={`
-                            flex items-center space-x-2 px-4 py-2 rounded-full border transition-all duration-200 ml-auto mr-4 ml-auto mr-4 ml-auto mr-4
+                            flex items-center space-x-2 px-4 py-2 rounded-full border transition-all duration-200 ml-auto mr-4 ml-auto mr-4
                             ${isConnected 
                                 ? "bg-green-50 border-green-200 text-green-700 shadow-sm" 
                                 : "bg-gray-50 border-gray-200 text-gray-500"
@@ -80,12 +77,13 @@ export default function search() {
                     <aside className="w-64">
                         <nav className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 space-y-2 sticky top-24">
                             {[
-                                { href: "home", label: "Home"},             
+                                { href: "home", label: "Home"},                               
                                 { href: "create", label: "Create",},
-                                { href: "list", label: "List"},
+                                { href: "list", label: "List", active: true },
                                 { href: "manage", label: "Manage"},
-                                { href: "search", label: "Search & Buy", active: true },
+                                { href: "search", label: "Search & Buy"},
                                 { href: "bidding", label: "Bidding"}
+
                             ].map((item) => (
                                 <Link 
                                     key={item.href}
@@ -109,11 +107,14 @@ export default function search() {
                             {/* Header Section */}
                             <div className="text-center mb-12">
                                 <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                                    <span className="text-2xl text-white">🔍</span>
+                                    <span className="text-2xl text-white">📤</span>
                                 </div>
                                 <h1 className="text-4xl font-bold text-gray-900 mb-4">
-                                    Search NFT by tokenID
+                                    List Your NFT
                                 </h1>
+                                <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                                    Ready to sell your NFT? Enter the details below and list it on the marketplace in just one step.
+                                </p>
                             </div>
 
                             {/* Form Section */}
@@ -132,38 +133,33 @@ export default function search() {
                                     />
                                 </div>
 
-                                {/* Buttons Row */}
-                                <div className="flex flex-col gap-4">
-                                    {/* First Row */}
-                                    <div className="flex gap-4">
-                                        {/* Search Button */}
-                                        <button
-                                            onClick={OwnerOf}
-                                            disabled={!tokenId}
-                                            className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98]"
-                                        >
-                                            Search
-                                        </button>
-                                        
-                                        {/* Search URL Button */}
-                                        <button
-                                            onClick={View}
-                                            disabled={!tokenId}
-                                            className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98]"
-                                        >
-                                            View
-                                        </button>
+                                {/* Price Input */}
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Listing Price (ETH)
+                                    </label>
+                                    <div className="relative">
+                                        <input
+                                            type="text"
+                                            placeholder="e.g., 0.5"
+                                            value={priceEth}
+                                            onChange={(e) => setPriceEth(e.target.value)}
+                                            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white pr-12"
+                                        />
+                                        <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                                            <span className="text-gray-500 font-medium">ETH</span>
+                                        </div>
                                     </div>
-                                    
-                                    {/* Buy Button */}
-                                    <button
-                                        onClick={BuyNFT}
-                                        disabled={!tokenId}
-                                        className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98] shadow-md flex items-center justify-center gap-2"
-                                    >
-                                        Buy
-                                    </button>
                                 </div>
+
+                                {/* List Button */}
+                                <button
+                                    onClick={ListNFT}
+                                    disabled={!tokenId || !priceEth}    //null check
+                                    className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98]"
+                                >
+                                    List NFT on Marketplace
+                                </button>
                             </div>
                         </div>
                     </main>
