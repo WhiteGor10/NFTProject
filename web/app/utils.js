@@ -172,6 +172,60 @@ export async function Buy(tokenId) {
       } 
     } 
 }
+
+export async function StartAuction(tokenId, StartpriceEth) {
+    if (window.ethereum) { 
+        const contract = getContract();
+    try { 
+            await contract.StartAuction( tokenId, ethers.utils.parseUnits(StartpriceEth, "ether"));    
+            alert("Started Auction, NFT : "+ tokenId + ",Start Price :" + priceEth + "ETH"); 
+        } catch (e) { 
+            console.log("error", e); 
+            alert("ERROR: Auction not started" + e); 
+        } 
+    }
+}
+
+export async function Bidding(tokenId, priceInEth) {
+    if (window.ethereum) { 
+        const contract = getContract();
+    try { 
+            await contract.Bidding(tokenId, { value: ethers.utils.parseEther(priceInEth) }); 
+            alert("Bided, NFT : "+ tokenId + ",Price :" + priceInEth + "ETH"); 
+        } catch (e) { 
+            console.log("error", e); 
+            alert("ERROR: Bid fail" + e); 
+        } 
+    }
+}
+
+export async function EndAuction(tokenId) {
+    if (window.ethereum) { 
+        const contract = getContract();
+    try { 
+            await contract.EndAuction(tokenId); 
+            alert("Auction end"); 
+        } catch (e) { 
+            console.log("error", e); 
+            alert("ERROR: End auction fail" + e); 
+        } 
+    }
+}
+
+export async function GetCurrentAuctionPrice(tokenId) {
+    if (window.ethereum) { 
+        const contract = getContract();
+    try { 
+            const price = await contract.GetCurrentAuctionPrice(tokenId); 
+            alert("Current price : " + price); 
+        } catch (e) { 
+            console.log("error", e); 
+            alert("ERROR: " + e); 
+        } 
+    }
+}
+
+
 export async function getTokenIDsBelongsTo(ownerAddress) {
     if (window.ethereum) {
         const contract = getContract();
