@@ -32,7 +32,6 @@ export async function connectAccount(setaccount, setIsConnected) {
     const address = await signer.getAddress();
     setIsConnected(Boolean(address));
   } catch (e) {
-    console.error("Failed to connect:", e?.message || e);
     setIsConnected(false);
   }
 }
@@ -46,7 +45,14 @@ export async function FindOwner(tokenId){
       try { 
         //call the function ownerOf
         const address = await contract.ownerOf(tokenId); 
-        alert("Owner of id:"+ tokenId +" : "+ address); 
+        try { 
+          const price = await contract.priceOf(tokenId);
+          const priceInEth = ethers.utils.formatEther(price);
+          alert("Owner of id:"+ tokenId +" : "+ address+"\nPrice:"+priceInEth+"ETH");
+        }
+          catch (e) {
+          alert("Owner of id:"+ tokenId +" : "+ address); 
+        }
       } 
       catch (e) { 
         console.log("error", e); 
@@ -57,13 +63,11 @@ export async function FindOwner(tokenId){
 
 export async function Findurl(tokenId){ 
     if (window.ethereum) { 
-
         const contract = getContract();
-
         try { 
-            //call the function 
             const url = await contract.urlOf(tokenId); 
-            alert("Url of id:"+ tokenId +" : "+ url); 
+            // Open URL in new tab
+            window.open(url, '_blank');
         } 
         catch (e) { 
             console.log("error", e); 
@@ -72,22 +76,29 @@ export async function Findurl(tokenId){
     } 
 }
 
-export async function handleMint(tokenId, url) {
+export async function handleMint(url) {
     if (window.ethereum) { 
         const contract = getContract();
         const signer = contract.signer;
+        
         try { 
-            //call the function mint
+            // First get the token ID
+            const tokenId = await contract.AssignTokenId(); 
+            
+            // Then use it for minting
             await contract.mint(signer.getAddress(), tokenId, url);   
-            alert("Created BNFT Token : "+ tokenId); 
+            
+            alert("Created BNFT Token: " + tokenId+"+"+url); 
             
         } catch (e) { 
             console.log("error", e); 
-            alert("ERROR: BNFT Token not created : " +e); 
+            alert(url+"ERROR: BNFT Token not created: " + e); 
         } 
     }
-  
 }
+
+
+
 
 export async function List(tokenId, priceEth) {
     if (window.ethereum) { 
@@ -101,9 +112,47 @@ export async function List(tokenId, priceEth) {
             alert("ERROR: BNFT Token not Listed" + e); 
         } 
     }
-
-  
 }
+export async function UpdatePrice(tokenId, priceEth) {
+    if (window.ethereum) { 
+        const contract = getContract();
+    try { 
+            //call the function List
+            await contract.UpdatePrice( tokenId, ethers.utils.parseUnits(priceEth, "ether"));    
+            alert("Listed NFT : "+ tokenId + ",New Price :" + priceEth + "ETH"); 
+        } catch (e) { 
+            console.log("error", e); 
+            alert("ERROR: BNFT Token not Listed" + e); 
+        } 
+    }
+}
+export async function UnList(tokenId) {
+    if (window.ethereum) { 
+        const contract = getContract();
+    try { 
+            //call the function List
+            await contract.Revoke(tokenId);    
+            alert("UnListed NFT : "+ tokenId); 
+        } catch (e) { 
+            console.log("error", e); 
+            alert("ERROR: BNFT Token not Listed" + e); 
+        } 
+    }
+}
+export async function Burn(tokenId) {
+    if (window.ethereum) { 
+        const contract = getContract();
+    try { 
+            //call the function List
+            await contract.burn(tokenId);    
+            alert("Burnt NFT : "+ tokenId); 
+        } catch (e) { 
+            console.log("error", e); 
+            alert("ERROR: BNFT Token not Listed" + e); 
+        } 
+    }
+}
+
 
 export async function Buy(tokenId) {
     if (window.ethereum) { 
@@ -123,4 +172,28 @@ export async function Buy(tokenId) {
       } 
     } 
 }
-
+export async function getTokenIDsBelongsTo(ownerAddress) {
+    if (window.ethereum) {
+        const contract = getContract();
+        try {
+            const tokenIDs = await contract.getTokenIDsBelongsTo(ownerAddress);
+            return tokenIDs;
+        } catch (e) {
+            console.log("error", e);
+            
+            // Handle specific error messages from the contract
+            if (e.message && e.message.includes("No NFT")) {
+                alert("No NFTs found for this address");
+            } else if (e.message && e.message.includes("Number of token not equal")) {
+                alert("Error retrieving token IDs");
+            } else {
+                alert("Error: " + e.message);
+            }
+            
+            return [];
+        }
+    } else {
+        alert("Please install MetaMask");
+        return [];
+    }
+}
