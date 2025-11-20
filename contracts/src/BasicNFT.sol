@@ -20,12 +20,19 @@ contract BasicNFT{
 
     struct Listing {
         address seller;
-        uint256 price;
+        uint price;
     }
 
     //Token listing on market
     mapping(uint => Listing) public listings;
 
+    struct Auction {
+        address seller;
+        address bidder;
+        uint HighestPrice;
+    }
+
+    mapping(uint => Auction) public Auctions;
     
 
     uint maxNum = 1000;
@@ -118,6 +125,7 @@ contract BasicNFT{
         require(tokenId <= maxNum, "TokenId out of range");
         require(msg.sender == ownerOf(tokenId),  "not the owner of token");
         require(listings[tokenId].seller == address(0), "Already Listed");
+        require(Auctions[tokenId].seller == address(0), "Auction in progress");
 
         listings[tokenId] = Listing(msg.sender,price);
         Approve(address(this), tokenId);
@@ -159,6 +167,49 @@ contract BasicNFT{
         delete Approval[tokenId];
     }
 
+    //Allowing other to bid
+    function StartAuction(uint tokenId, uint startprice)public {
+        require(tokenId <= maxNum, "TokenId out of range");
+        require(msg.sender == ownerOf(tokenId),  "not the owner of token");
+        require(listings[tokenId].seller == address(0), "NFT is Listing");
+        require(Auctions[tokenId].seller == address(0), "Auction in progress");
+
+        Auctions[tokenId] = Auction(msg.sender,address(0),startprice);
+        Approve(address(this), tokenId);
+    }
+
+    //Bid for a NFT
+    function Bidding(uint tokenId)public payable{
+        require(tokenId <= maxNum, "TokenId out of range");
+        require(msg.sender != ownerOf(tokenId),  "Is the owner of token");
+        Auction memory item = Auctions[tokenId];
+        require(item.seller != address(0), "NFT not auctioned");
+        require(msg.value > item.HighestPrice, "Price too low");
+        if(item.bidder != address(0)){
+            (bool sent, ) = payable(item.bidder).call{value: item.HighestPrice}("");
+            require(sent, "ETH transfer failed");
+        }
+        Auctions[tokenId] = Auction(item.seller,msg.sender,msg.value);
+
+    }
+
+    function EndAuction(uint tokenId)public{
+        require(tokenId <= maxNum, "TokenId out of range");
+        require(msg.sender == ownerOf(tokenId),  "not the owner of token");
+        Auction memory item = Auctions[tokenId];
+        require(item.seller != address(0), "NFT not auctioned");
+
+        //Send ETH
+        (bool sent, ) = payable(item.seller).call{value: item.HighestPrice}("");
+        require(sent, "ETH transfer failed");
+
+        //Send BNFT
+        this.TransferBNFT(item.seller, item.bidder, tokenId);
+
+        Auctions[tokenId].seller = address(0);
+        delete Auctions[tokenId];
+    }
+
     function GetTokenIDsBelongsTo(address owner)public view returns (uint[] memory){
         uint len = NumberOfToken[owner];
         uint[] memory tokenIDs = new uint[](len);
@@ -179,4 +230,7 @@ contract BasicNFT{
         require(j == len, "ERROR : Number of token not equal owner of");
         return tokenIDs;
     }
+
+
+
 }
