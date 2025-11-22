@@ -193,6 +193,7 @@ contract BasicNFT{
 
     }
 
+    //End a auction to receive highest price and exchange NFT
     function EndAuction(uint tokenId)public{
         require(tokenId <= maxNum, "TokenId out of range");
         require(msg.sender == ownerOf(tokenId),  "not the owner of token");
@@ -217,6 +218,7 @@ contract BasicNFT{
         return item.HighestPrice;
     }
 
+    //Return an array of ALL tokenID belongs to an owner
     function GetTokenIDsBelongsTo(address owner)public view returns (uint[] memory){
         uint len = NumberOfToken[owner];
         uint[] memory tokenIDs = new uint[](len);
