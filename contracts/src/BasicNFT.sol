@@ -154,6 +154,7 @@ contract BasicNFT{
     function UpdatePrice(uint tokenId, uint newPrice)public {
         require(tokenId <= maxNum, "TokenId out of range");
         require(msg.sender == ownerOf(tokenId),  "not the owner of token");
+        require(listings[tokenId].seller != address(0), "NFT not listing");
 
         listings[tokenId] = Listing(msg.sender,newPrice);
     }
@@ -162,6 +163,7 @@ contract BasicNFT{
     function Revoke(uint tokenId)public {
         require(tokenId <= maxNum, "TokenId out of range");
         require(msg.sender == ownerOf(tokenId),  "not the owner of token");
+        require(listings[tokenId].seller != address(0), "NFT not listing");
 
         delete listings[tokenId];
         delete Approval[tokenId];
@@ -200,15 +202,19 @@ contract BasicNFT{
         Auction memory item = Auctions[tokenId];
         require(item.seller != address(0), "NFT not auctioned");
 
-        //Send ETH
-        (bool sent, ) = payable(item.seller).call{value: item.HighestPrice}("");
-        require(sent, "ETH transfer failed");
+        if(item.bidder != address(0)){
+            //Send ETH
+            (bool sent, ) = payable(item.seller).call{value: item.HighestPrice}("");
+            require(sent, "ETH transfer failed");
 
-        //Send BNFT
-        this.TransferBNFT(item.seller, item.bidder, tokenId);
+            //Send BNFT
+            this.TransferBNFT(item.seller, item.bidder, tokenId);
+        }
+        
 
         Auctions[tokenId].seller = address(0);
         delete Auctions[tokenId];
+        delete Approval[tokenId];
     }
 
     function GetCurrentAuctionPrice(uint tokenId) public view returns(uint){
