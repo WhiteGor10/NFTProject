@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from 'next/link' 
 
-import { List, connectAccount, getTokenIDsBelongsTo ,Findurl} from "../utils.js";
+import { List, connectAccount, GetTokenIDsBelongsTo ,Findurl} from "../utils.js";
 export default function search() {
 
     const [account, setaccount] = useState([]); 
@@ -30,7 +30,7 @@ export default function search() {
         
         setLoading(true);
         try {
-            const tokenIDs = await getTokenIDsBelongsTo(account[0]);
+            const tokenIDs = await GetTokenIDsBelongsTo(account[0]);
             const formattedTokenIDs = tokenIDs.map(token => {
                 return parseInt(token.toString(), 10);
             });
@@ -161,13 +161,6 @@ export default function search() {
                                             <h2 className="text-xl font-semibold text-gray-900">
                                                 Your NFT Collection ({myTokenIDs.length})
                                             </h2>
-                                            <button 
-                                                onClick={loadMyNFTs}
-                                                className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2"
-                                            >
-                                                <span>🔄</span>
-                                                Refresh
-                                            </button>
                                         </div>
                                         
                                         <div className="grid grid-cols-3 gap-4">
