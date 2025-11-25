@@ -227,11 +227,11 @@ export async function GetCurrentAuctionPrice(tokenId) {
 }
 
 
-export async function getTokenIDsBelongsTo(ownerAddress) {
+export async function GetTokenIDsBelongsTo(ownerAddress) {
     if (window.ethereum) {
         const contract = getContract();
         try {
-            const tokenIDs = await contract.getTokenIDsBelongsTo(ownerAddress);
+            const tokenIDs = await contract.GetTokenIDsBelongsTo(ownerAddress);
             return tokenIDs;
         } catch (e) {
             console.log("error", e);
