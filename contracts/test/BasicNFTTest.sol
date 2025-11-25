@@ -9,11 +9,14 @@ contract BasicNFTTest is Test{
     BasicNFT public BNFT;
     address user = vm.addr(1);
     address user2 = vm.addr(2);
+    address user3 = vm.addr(3);
     function setUp() public{
         BNFT = new BasicNFT();
 
         vm.deal(user, 10 ether);
         console.log("UserAddress : ", user);
+        vm.deal(user2, 10 ether);
+        vm.deal(user3, 10 ether);
     }
 
     function testIfUserMint_Success()public{
@@ -92,6 +95,44 @@ contract BasicNFTTest is Test{
         BNFT.Buy{value: 900}(3);
 
         console.log("Owner of token3 : " , BNFT.ownerOf(3));
+        vm.stopPrank();
+    }
+
+    function testAuction_Success() public{
+        vm.startPrank(user);
+        BNFT.mint(user, 5, "url");
+        BNFT.StartAuction(5, 100);
+        vm.stopPrank();
+
+        vm.startPrank(user2);
+        BNFT.Bidding{value: 300}(5);
+        vm.stopPrank();
+
+        vm.startPrank(user3);
+        BNFT.Bidding{value: 400}(5);
+        vm.stopPrank();
+
+        vm.startPrank(user);
+        BNFT.EndAuction(5);
+        vm.stopPrank();
+    }
+
+    function testAuction_Fail() public{
+        vm.startPrank(user);
+        BNFT.mint(user, 5, "url");
+        BNFT.StartAuction(5, 100);
+        vm.stopPrank();
+
+        vm.startPrank(user2);
+        BNFT.Bidding{value: 50}(5);
+        vm.stopPrank();
+
+        vm.startPrank(user3);
+        BNFT.Bidding{value: 90}(5);
+        vm.stopPrank();
+
+        vm.startPrank(user);
+        BNFT.EndAuction(5);
         vm.stopPrank();
     }
 }
