@@ -1,4 +1,4 @@
-<h>Please read NFTProject Report first</h>
+<h1>Please read NFTProject Report first</h1>
 
 Step to open the website
 expect installed : Foundry 0.3.0, Nextjs(Need all dependences installed under the /web), Ethers.js 5.7.0
