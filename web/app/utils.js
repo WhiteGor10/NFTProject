@@ -88,7 +88,7 @@ export async function handleMint(url) {
             // Then use it for minting
             await contract.mint(signer.getAddress(), tokenId, url);   
             
-            alert("Created BNFT Token: " + tokenId+"+"+url); 
+            alert("Created BNFT Token: " + tokenId); 
             
         } catch (e) { 
             console.log("error", e); 
@@ -173,11 +173,11 @@ export async function Buy(tokenId) {
     } 
 }
 
-export async function StartAuction(tokenId, StartpriceEth) {
+export async function StartAuction(tokenId, priceEth) {
     if (window.ethereum) { 
         const contract = getContract();
     try { 
-            await contract.StartAuction( tokenId, ethers.utils.parseUnits(StartpriceEth, "ether"));    
+            await contract.StartAuction( tokenId, ethers.utils.parseUnits(priceEth, "ether"));    
             alert("Started Auction, NFT : "+ tokenId + ",Start Price :" + priceEth + "ETH"); 
         } catch (e) { 
             console.log("error", e); 
@@ -238,7 +238,7 @@ export async function GetTokenIDsBelongsTo(ownerAddress) {
             
             // Handle specific error messages from the contract
             if (e.message && e.message.includes("No NFT")) {
-                alert("No NFTs found for this address");
+                //alert("No NFTs found for this address");
             } else if (e.message && e.message.includes("Number of token not equal")) {
                 alert("Error retrieving token IDs");
             } else {

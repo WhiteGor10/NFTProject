@@ -111,26 +111,25 @@ export default function search() {
                                 <Link 
                                     key={index}
                                     href={item.href}
-                                    className={`flex items-center space-x-3 w-full px-4 py-3 rounded-xl transition-all duration-200 ${
+                                    className={`flex items-center space-x-3 w-full px-4 py-3 rounded-xl ${
                                         item.active 
                                             ? "bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 text-purple-700 font-semibold" 
                                             : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                                     }`}
                                 >
-                                    <span className="text-lg">{item.icon}</span>
                                     <span className="text-sm">{item.label}</span>
                                 </Link>
                             ))}
                         </nav>
                     </aside>
 
-                    {/* Main Content Card */}
+                    {/* Main Content*/}
 
                     <main className="flex-1">
                         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
                             {/* Header Section */}
                             <div className="text-center mb-12">
-                                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-6 ">
                                     <span className="text-2xl text-white">📈</span>
                                 </div>
                                 <h1 className="text-4xl font-bold text-gray-900 mb-4">

@@ -9,6 +9,7 @@ export default function Search() {
     const [isConnected, setIsConnected] = useState(false);
     const [tokenId, setTokenId] = useState("");
     const [newPrice, setNewPrice] = useState("");
+    const [selectedAction, setSelectedAction] = useState('updatePrice');
 
 
     function ConnectAccount() {
@@ -80,20 +81,19 @@ export default function Search() {
                                 <Link 
                                     key={item.href}
                                     href={item.href}
-                                    className={`flex items-center space-x-3 w-full px-4 py-3 rounded-xl transition-all duration-200 ${
+                                    className={`flex items-center space-x-3 w-full px-4 py-3 rounded-xl ${
                                         item.active 
                                             ? "bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 text-purple-700 font-semibold" 
                                             : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                                     }`}
                                 >
-                                    <span className="text-lg">{item.icon}</span>
                                     <span className="text-sm">{item.label}</span>
                                 </Link>
                             ))}
                         </nav>
                     </aside>
 
-                    {/* Main Content Card */}
+                    {/* Main Content*/}
                     <main className="flex-1">
                         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
                             {/* Header Section */}
@@ -105,7 +105,7 @@ export default function Search() {
                                     Manage Your NFT
                                 </h1>
                                 <p className="text-gray-600 text-lg max-w-md mx-auto">
-                                    Update price, unlist, or burn your NFTs
+                                    Update price, finish auction, unlist, or burn your NFTs
                                 </p>
                             </div>
 
@@ -123,80 +123,105 @@ export default function Search() {
                                 />
                             </div>
 
-                            {/* Management Actions */}
-                            <div className="max-w-2xl mx-auto space-y-6">
-                                {/* Update Price Section */}
-                                <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
-                                    <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                                        Update Price
-                                    </h3>
-                                    <div className="flex gap-4">
-                                        <input
-                                            type="text"
-                                            placeholder="New price (ETH)"
-                                            value={newPrice}
-                                            onChange={(e) => setNewPrice(e.target.value)}
-                                            className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
-                                        />
-                                        <button
-                                            onClick={() => UpdatePrice(tokenId, newPrice)}
-                                            disabled={!tokenId || !newPrice}
-                                            className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98] min-w-[140px]"
-                                        >
+                            {/* Action Selection */}
+                            <div className="max-w-md mx-auto mb-8">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Select Action
+                                </label>
+                                <select
+                                    value={selectedAction}
+                                    onChange={(e) => setSelectedAction(e.target.value)}
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
+                                >
+                                    <option value="updatePrice">Update Price</option>
+                                    <option value="endAuction">Finish Auction</option>
+                                    <option value="unlist">Unlist NFT</option>
+                                    <option value="burn">Burn NFT</option>
+                                </select>
+                            </div>
+                            <div className="max-w-2xl mx-auto">
+                                {/* Update Price*/}
+                                {selectedAction === 'updatePrice' && (
+                                    <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
+                                        <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                                             Update Price
+                                        </h3>
+                                        <div className="flex gap-4 mb-4">
+                                            <input
+                                                type="text"
+                                                placeholder="New price (ETH)"
+                                                value={newPrice}
+                                                onChange={(e) => setNewPrice(e.target.value)}
+                                                className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                                            />
+                                        </div>
+                                            <button
+                                                onClick={() => UpdatePrice(tokenId, newPrice)}
+                                                disabled={!tokenId || !newPrice}
+                                                className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98] w-full"
+                                            >
+                                                Update Price
+                                            </button>
+                                        
+                                    </div>
+                                )}
+
+                                {/* End Bid*/}
+                                {selectedAction === 'endAuction' && (
+                                    <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
+                                        <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                            Finish Auction
+                                        </h3>
+                                        <p className="text-gray-600 mb-4 text-sm">
+                                            <span className="font-semibold text-red-600">Warning:</span> This action is permanent and cannot be undone.
+                                        </p>
+                                        <button
+                                            onClick={() => EndAuction(tokenId)}
+                                            disabled={!tokenId}
+                                            className="bg-gradient-to-r from-red-500 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98] w-full"
+                                        >
+                                            Finish Auction
                                         </button>
                                     </div>
-                                </div>
-                                {/* End Bid Section */}
-                                <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
-                                    <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                                        Finish Auction
-                                    </h3>
-                                    <p className="text-gray-600 mb-4 text-sm">
-                                        <span className="font-semibold text-red-600">Warning:</span> This action is permanent and cannot be undone.
-                                    </p>
-                                    <button
-                                        onClick={() => EndAuction(tokenId)}
-                                        disabled={!tokenId}
-                                        className="bg-gradient-to-r from-red-500 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98] w-full"
-                                    >
-                                        Finish Auction
-                                    </button>
-                                </div>
+                                )}
 
-                                {/* Unlist Section */}
-                                <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
-                                    <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                                        Unlist NFT
-                                    </h3>
-                                    <p className="text-gray-600 mb-4 text-sm">
-                                        Remove your NFT from the marketplace. It will no longer be available for purchase.
-                                    </p>
-                                    <button
-                                        onClick={() => UnList(tokenId)}
-                                        disabled={!tokenId}
-                                        className="bg-gradient-to-r from-orange-500 to-amber-600 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98] w-full"
-                                    >
-                                        Unlist NFT
-                                    </button>
-                                </div>
+                                {/* Unlist*/}
+                                {selectedAction === 'unlist' && (
+                                    <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
+                                        <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                            Unlist NFT
+                                        </h3>
+                                        <p className="text-gray-600 mb-4 text-sm">
+                                            Remove your NFT from the marketplace. It will no longer be available for purchase.
+                                        </p>
+                                        <button
+                                            onClick={() => UnList(tokenId)}
+                                            disabled={!tokenId}
+                                            className="bg-gradient-to-r from-orange-500 to-amber-600 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98] w-full"
+                                        >
+                                            Unlist NFT
+                                        </button>
+                                    </div>
+                                )}
 
-                                {/* Burn Section */}
-                                <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
-                                    <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                                        Burn NFT
-                                    </h3>
-                                    <p className="text-gray-600 mb-4 text-sm">
-                                        <span className="font-semibold text-red-600">Warning:</span> This action is permanent and cannot be undone. Your NFT will be permanently removed from the blockchain.
-                                    </p>
-                                    <button
-                                        onClick={() => Burn(tokenId)}
-                                        disabled={!tokenId}
-                                        className="bg-gradient-to-r from-red-500 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98] w-full"
-                                    >
-                                        Burn NFT
-                                    </button>
-                                </div>
+                                {/* Burn */}
+                                {selectedAction === 'burn' && (
+                                    <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
+                                        <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                            Burn NFT
+                                        </h3>
+                                        <p className="text-gray-600 mb-4 text-sm">
+                                            <span className="font-semibold text-red-600">Warning:</span> This action is permanent and cannot be undone. Your NFT will be permanently removed from the blockchain.
+                                        </p>
+                                        <button
+                                            onClick={() => Burn(tokenId)}
+                                            disabled={!tokenId}
+                                            className="bg-gradient-to-r from-red-500 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98] w-full"
+                                        >
+                                            Burn NFT
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </main>

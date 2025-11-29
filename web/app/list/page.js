@@ -88,32 +88,31 @@ export default function search() {
                                 <Link 
                                     key={item.href}
                                     href={item.href}
-                                    className={`flex items-center space-x-3 w-full px-4 py-3 rounded-xl transition-all duration-200 ${
+                                    className={`flex items-center space-x-3 w-full px-4 py-3 rounded-xl ${
                                         item.active 
                                             ? "bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 text-purple-700 font-semibold" 
                                             : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                                     }`}
                                 >
-                                    <span className="text-lg">{item.icon}</span>
                                     <span className="text-sm">{item.label}</span>
                                 </Link>
                             ))}
                         </nav>
                     </aside>
 
-                    {/* Main Content Card */}
+                    {/* Main Content*/}
                     <main className="flex-1">
                         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
                             {/* Header Section */}
                             <div className="text-center mb-12">
-                                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-6 ">
                                     <span className="text-2xl text-white">📤</span>
                                 </div>
                                 <h1 className="text-4xl font-bold text-gray-900 mb-4">
                                     List Your NFT
                                 </h1>
                                 <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                                    Ready to sell your NFT? Enter the details below and list it on the marketplace in just one step.
+                                    Ready to sell your NFT? Enter the details below and list it on the marketplace.
                                 </p>
                             </div>
 
@@ -129,7 +128,7 @@ export default function search() {
                                         placeholder="e.g., 123"
                                         value={tokenId}
                                         onChange={(e) => setTokenId(e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 duration-200"
                                     />
                                 </div>
 
@@ -144,7 +143,7 @@ export default function search() {
                                             placeholder="e.g., 0.5"
                                             value={priceEth}
                                             onChange={(e) => setPriceEth(e.target.value)}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white pr-12"
+                                            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 duration-200"
                                         />
                                         <div className="absolute inset-y-0 right-0 flex items-center pr-3">
                                             <span className="text-gray-500 font-medium">ETH</span>
