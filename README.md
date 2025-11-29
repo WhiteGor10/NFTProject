@@ -1,6 +1,7 @@
 <h1>Please read NFTProject Report first</h1>
 
 Step to open the website
+<br>
 expect installed : Foundry 0.3.0, Nextjs(Need all dependences installed under the /web), Ethers.js 5.7.0
 1. code: anvil
 2. copy private keys and address to /contracts/.env
