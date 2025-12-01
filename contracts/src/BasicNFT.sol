@@ -62,6 +62,8 @@ contract BasicNFT{
     function burn(uint tokenId)public {
         require(tokenId <= maxNum , "TokenId out of range");
         require(msg.sender == ownerOf(tokenId), "not owner of token");
+        require(Auctions[tokenId].seller == address(0), "Auction in progress");
+        require(listings[tokenId].seller == address(0), "NFT is Listing");
         delete owners[tokenId];
         delete urls[tokenId];
         NumberOfToken[msg.sender] -= 1; 
