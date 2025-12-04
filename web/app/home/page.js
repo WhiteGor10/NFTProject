@@ -52,7 +52,7 @@ export default function search() {
             <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-8">
                     <div className="flex justify-between items-center h-16">   
-                        {/* Logo/Brand */}
+                        {/* Logo */}
                         <div className="flex items-center space-x-3">
                             <Link 
                                 href="../"
@@ -88,7 +88,7 @@ export default function search() {
             {/* Main Layout */}
             <div className="max-w-7xl mx-auto px-8 py-8">
                 <div className="flex gap-8">
-                    {/* Enhanced Sidebar */}
+                    {/* Sidebar */}
                     <aside className="w-64">
                         <nav className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 space-y-2 sticky top-24">
                             {[
@@ -131,7 +131,7 @@ export default function search() {
                                 </p>
                             </div>
 
-                            {/* My NFTs Content */}
+                            {/* Show My NFTs */}
                             <div className="max-w-2xl mx-auto">
                                 {myTokenIDs.length === 0 ? (
                                     <div className="text-center py-12">

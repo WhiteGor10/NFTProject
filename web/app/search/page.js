@@ -33,12 +33,12 @@ export default function search() {
     
         return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-            {/* Enhanced Header */}
+            {/* Header */}
             <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                      {/* flex col container */}
                     <div className="flex justify-between items-center h-16">   
-                        {/* Logo/Brand */}
+                        {/* Logo */}
                         <div className="flex items-center space-x-3">
                             <Link 
                                 href="../"
@@ -76,7 +76,7 @@ export default function search() {
             {/* Main Layout */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div className="flex gap-8">
-                    {/* Enhanced Sidebar */}
+                    {/* Sidebar */}
                     <aside className="w-64">
                         <nav className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 space-y-2 sticky top-24">
                             {[
@@ -131,7 +131,7 @@ export default function search() {
                                     />
                                 </div>
 
-                                {/* Buttons Row */}
+                                {/* Buttons */}
                                 <div className="flex flex-col gap-4">
                                     {/* First Row */}
                                     <div className="flex gap-4">
@@ -144,7 +144,7 @@ export default function search() {
                                             Search
                                         </button>
                                         
-                                        {/* Search URL Button */}
+                                        {/* Search URL / List Price Button*/}
                                         <button
                                             onClick={View}
                                             disabled={!tokenId}

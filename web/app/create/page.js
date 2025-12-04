@@ -9,7 +9,7 @@ export default function Search() {
     const [isConnected, setIsConnected] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
     const [previewUrl, setPreviewUrl] = useState("");
-    const [mediaType, setMediaType] = useState("image"); // "image" or "video"
+    const [mediaType, setMediaType] = useState("image"); // image or video
 
 
     const handleFileSelect = (event) => {
@@ -61,12 +61,12 @@ const removeFile = () => {
     
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 sticky top-0 z-50">
-            {/* Enhanced Header */}
+            {/* Header */}
             <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                      {/* flex col container */}
                     <div className="flex justify-between items-center h-16">   
-                        {/* Logo/Brand */}
+                        {/* Logo */}
                         <div className="flex items-center space-x-3">
                             <Link 
                                 href="../"
@@ -104,7 +104,7 @@ const removeFile = () => {
             {/* Main Layout */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div className="flex gap-8">
-                    {/* Enhanced Sidebar */}
+                    {/* Sidebar */}
                     <aside className="w-64">
                         <nav className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 space-y-2 sticky top-24 sticky top-24">
                             {[
@@ -148,7 +148,7 @@ const removeFile = () => {
 
                             {/* Form Section */}
                             <div className="max-w-md mx-auto space-y-6">
-                                {/* Media Type Selection */}
+                                {/* Choose Media Type */}
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
                                         Media Type
@@ -157,7 +157,7 @@ const removeFile = () => {
                                         value={mediaType}
                                         onChange={(e) => {
                                             setMediaType(e.target.value);       
-                                            setSelectedFile(null);// Clear files when switching type
+                                            setSelectedFile(null);// Clear files when switching media type
                                             setPreviewUrl("");
                                         }}
                                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
@@ -173,7 +173,7 @@ const removeFile = () => {
                                         {mediaType === 'image' ? 'NFT Image' : 'NFT Video'}
                                     </label>
                                     
-                                    {/* File Input */}
+                                    {/* File Upload */}
                                     <div className="flex items-center justify-center w-full">
                                         {!previewUrl ? (
                                             <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-2xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition-all duration-200 group">
